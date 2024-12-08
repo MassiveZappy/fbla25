@@ -362,42 +362,6 @@ class accSystem:
                      return user['Name']
            return None
 
-if __name__ == "__main__":
-    accSys = accSystem()
 
-    accSys.createAccount('Alice Smith', 'alice@example.com', 'password123')
-    accSys.createAccount('Bob Jones', 'bob@example.com', 'securepass456')
 
-    accSys.authenticate('alice@example.com', 'password123')
-
-    sessionToken = accSys.createSession('alice@example.com')
-
-    is_valid = accSys.validateSession('alice@example.com', sessionToken)
-    print(f"Session valid: {is_valid}")
-
-    accSys.createTransactionalList('alice@example.com', 'Name1!', 'Desc2@')
-
-    alice = accSys.data.variable['users']['alice@example.com']
-    tlUUID = alice['TransactionalList'][0]
-    accSys.addUserToTransactionalList('alice@example.com', tlUUID, 'bob@example.com')
-
-    accSys.acceptInvitation('bob@example.com', tlUUID)
-
-    accSys.addEvent(
-        email='alice@example.com',
-        tlUUID=tlUUID,
-        name='Grocery Shopping',
-        description='Weekly groceries',
-        time=str(datetime.now()),
-        scheduled=False,
-        amount=150.00,
-        byUserEmail='alice@example.com',
-        forUserEmail='bob@example.com'
-    )
-
-    tlData = accSys.data.variable['transactionalLists'][tlUUID]
-    eventUUID = tlData['Events'][0]
-    accSys.markEventAsPaid('bob@example.com', tlUUID, eventUUID)
-
-    notifications = accSys.getNotifications('alice@example.com')
-    print("Notifications for Alice:", notifications)
+#TODO Notifications where they belong
