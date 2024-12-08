@@ -24,7 +24,6 @@ class AccSystemApi
             curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
         }
 
-        // Set HTTP method
         switch ($method) {
             case "POST":
                 curl_setopt($ch, CURLOPT_POST, true);

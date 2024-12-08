@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from main import accSystem  # Import your existing code
+from main import accSystem
 
 app = Flask(__name__)
 accSys = accSystem()
