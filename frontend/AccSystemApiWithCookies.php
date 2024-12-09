@@ -1,7 +1,8 @@
 <?php
-class AccSystemApi
+class AccSystemApiWithCookies
 {
     private $apiUrl;
+    private $cookieName = "acc_system_session";
 
     public function __construct($apiUrl)
     {
@@ -75,17 +76,25 @@ class AccSystemApi
         return $this->sendRequest("POST", "/createAccount", $data);
     }
 
-    public function authenticate($email, $password)
+    public function signIn($email, $password)
     {
         $data = [
             "email" => $email,
             "password" => $password,
         ];
 
-        return $this->sendRequest("POST", "/authenticate", $data);
+        $authResponse = $this->sendRequest("POST", "/authenticate", $data);
+
+        if ($authResponse["success"]) {
+            $sessionResponse = $this->createSession($email);
+            $this->setSessionCookie($email, $sessionResponse["sessionToken"]);
+            return $authResponse;
+        } else {
+            throw new Exception("Authentication failed.");
+        }
     }
 
-    public function createSession($email)
+    private function createSession($email)
     {
         $data = [
             "email" => $email,
@@ -94,14 +103,52 @@ class AccSystemApi
         return $this->sendRequest("POST", "/createSession", $data);
     }
 
-    public function validateSession($email, $sessionToken)
+    public function validateSession()
     {
+        if (!isset($_COOKIE[$this->cookieName])) {
+            return false;
+        }
+
+        $sessionData = json_decode($_COOKIE[$this->cookieName], true);
+        print_r($sessionData);
+
+        $email = $sessionData["email"];
+        $sessionToken = $sessionData["sessionToken"];
+
         $data = [
             "email" => $email,
-            "session_token" => $sessionToken,
+            "sessionToken" => $sessionToken,
         ];
 
-        return $this->sendRequest("POST", "/validateSession", $data);
+        $validateResponse = $this->sendRequest(
+            "POST",
+            "/validateSession",
+            $data
+        );
+        return $validateResponse["isValid"];
+    }
+
+    public function signOut()
+    {
+        if (isset($_COOKIE[$this->cookieName])) {
+            unset($_COOKIE[$this->cookieName]);
+            setcookie($this->cookieName, "", time() - 3600, "/"); // Expire the cookie
+        }
+    }
+
+    private function setSessionCookie($email, $sessionToken)
+    {
+        // email should be replaced bt uuid
+        $sessionData = json_encode([
+            "email" => $email,
+            "sessionToken" => $sessionToken,
+        ]);
+        setcookie($this->cookieName, $sessionData, time() + 2 * 3600, "/"); // 2 hours expiry
+    }
+
+    public function isSignedIn()
+    {
+        return $this->validateSession();
     }
 
     public function createTransactionalList($email, $name, $description)
