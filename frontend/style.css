@@ -1,10 +1,11 @@
+/*body paragraphs color, font, and sizing*/
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
 }
-
+/*header color and padding*/
 header {
     background-color: #333;
     color: #fff;
@@ -34,12 +35,23 @@ h2 {
 
 h3 {
     padding: 10px;
+    text-align: center;
 }
 
+h4 {
+    padding: 10px;
+    text-align: center;
+}
+/*paragraph padding and alignment*/
 p {
     padding: 10px;
+    text-align: center;
 }
-
+/*aligns transactional list in centert*/
+#transactional-list {
+    text-align: center;
+}
+/*sets the size, margin, padding, color, and border radius of form*/
 form {
     max-width: 400px;
     margin: 20px auto;
@@ -105,17 +117,17 @@ form button:hover {
 
 footer {
     text-align: center;
-    padding: 10px 0;
+    padding: 8px 0;
     background-color: #333;
     color: #fff;
-    position: fixed;
+    position: sticky;
     width: 100%;
     bottom: 0;
 }
 
 #PHStitle {
-    font-size:60px;
-    color:white;
+    font-size: 60px;
+    color: white;
 }
 .container {
     position: relative;
@@ -153,4 +165,55 @@ footer {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+
+#tlTable {
+    width: 50%;
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+    border: 0.6em solid black;
+    text-align: center;
+}
+
+.tlTableRow {
+    border: 0.1em solid black;
+}
+
+.tlTableCol {
+    border: 0.1em solid black;
+}
+
+#eventsTable {
+    width: 50%;
+    border-collapse: collapse;
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 0.6em solid black;
+}
+
+.eventsRow {
+    border: 0.1em solid black;
+    text-align: center;
+}
+
+.eventsCol {
+    border: 0.1em solid black;
+}
+.radio-group {
+    display: flex;
+    flex-direction: row;
+}
+.radio-group label {
+    margin-right: 10px;
+}
+
+/*Move FAQ text to left*/
+#FAQtext h3 {
+    text-align: left;
+}
+#FAQtext p {
+    text-align: left;
 }

@@ -37,11 +37,14 @@ try {
 <!DOCTYPE html>
 <html>
 <head>
+<!--    text displayed on tab, link to style sheet-->
     <title>Manage Transactional Lists</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
+<!--link to header-->
     <?php include "header.php"; ?>
+<!--print name of page to screen of website-->
     <h2>Manage Transactional Lists</h2>
     <p><?php echo $userName . " (" . $userEmail . ")"; ?></p>
 
@@ -64,7 +67,7 @@ try {
                                 $userToken
                             )-->
             <!--            each event gets a row of a table. cols are: Name, Description, Admins, Members, Invited Members -->
-        <table>
+        <table id="tlTable">
             <tr>
                 <th>Name</th>
                 <th>Description</th>
@@ -74,12 +77,12 @@ try {
                 <th>Edit</th>
             </tr>
             <?php foreach ($transactionalLists as $transactionalListUUID): ?>
-                <tr>
+                <tr class="tlTableRow">
                     <?php
                     $transactionalList = $apiClient->getTransactionalList(
                         $userEmail,
                         $transactionalListUUID,
-                        $userToken
+                        json_decode($_COOKIE["acc_system_session"], true)["sessionToken"]
                     )["transactionalList"];
                     $adminNames = [];
                     $memberNames = [];
@@ -103,12 +106,25 @@ try {
                         )["name"];
                     }
                     ?>
-                    <td><?php echo $transactionalList["Name"]; ?></td>
-                    <td><?php echo $transactionalList["Description"]; ?></td>
-                    <td><?php echo implode(", ", $adminNames); ?></td>
-                    <td><?php echo implode(", ", $memberNames); ?></td>
-                    <td><?php echo implode(", ", $invitedMemberNames); ?></td>
-                    <td>
+                    <td class="tlTableCol"><?php echo $transactionalList[
+                        "Name"
+                    ]; ?></td>
+                    <td class="tlTableCol"><?php echo $transactionalList[
+                        "Description"
+                    ]; ?></td>
+                    <td class="tlTableCol"><?php echo implode(
+                        ", ",
+                        $adminNames
+                    ); ?></td>
+                    <td class="tlTableCol"><?php echo implode(
+                        ", ",
+                        $memberNames
+                    ); ?></td>
+                    <td class="tlTableCol"><?php echo implode(
+                        ", ",
+                        $invitedMemberNames
+                    ); ?></td>
+                    <td class="tlTableCol">
                         <?php if (in_array($userName, $adminNames)) {
                             echo '<a href="editTransactionalList.php?tlUUID=' .
                                 $transactionalListUUID .

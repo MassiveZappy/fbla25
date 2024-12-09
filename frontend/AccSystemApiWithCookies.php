@@ -188,7 +188,6 @@ class AccSystemApiWithCookies
         $tlUUID,
         $name,
         $description,
-        $time,
         $scheduled,
         $amount,
         $byUserEmail,
@@ -196,14 +195,13 @@ class AccSystemApiWithCookies
     ) {
         $data = [
             "email" => $email,
-            "tl_uuid" => $tlUUID,
+            "tlUUID" => $tlUUID,
             "name" => $name,
             "description" => $description,
-            "time" => $time,
             "scheduled" => $scheduled,
             "amount" => $amount,
-            "by_user_email" => $byUserEmail,
-            "for_user_email" => $forUserEmail,
+            "byUserEmail" => $byUserEmail,
+            "forUserEmail" => $forUserEmail,
         ];
 
         return $this->sendRequest("POST", "/addEvent", $data);

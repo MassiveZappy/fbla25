@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from main import accSystem
+from datetime import datetime
 
 app = Flask(__name__)
 accSys = accSystem()
@@ -101,12 +102,12 @@ def addEvent():
     tlUUID = data.get('tlUUID')
     name = data.get('name')
     description = data.get('description')
-    time = data.get('time')  # Should be a string in ISO format
     scheduled = data.get('scheduled', False)
     amount = data.get('amount')
     byUserEmail = data.get('byUserEmail')
     forUserEmail = data.get('forUserEmail')
-    if not all([email, tlUUID, name, description, time, amount, byUserEmail, forUserEmail]):
+    time = datetime.now().isoformat()
+    if not all([email, tlUUID, name, description, amount, byUserEmail, forUserEmail]):
         return jsonify({'success': False, 'message': 'Missing required fields.'}), 400
     result = accSys.addEvent(
         email=email,
@@ -179,15 +180,14 @@ def getTransactionalListData():
 def getEventData():
     data = request.json
     email = data.get('email')
-    tlUUID = data.get('tlUUID')
     eventUUID = data.get('eventUUID')
     sessionToken = data.get('sessionToken')
-    if not email or not tlUUID or not eventUUID or not sessionToken:
+    if not email or not eventUUID or not sessionToken:
         return jsonify({'success': False, 'message': 'Email, tlUUID, eventUUID, and sessionToken are required.'}), 400
     if not accSys.validateSession(email, sessionToken):
         return jsonify({'success': False, 'message': 'Invalid session.'}), 401
-    event = accSys.data.variable['transactionalLists'][tlUUID]['events'].get(eventUUID)
-    if not event:
+    event = accSys.data.variable['events'].get(eventUUID)
+    if event is None:
         return jsonify({'success': False, 'message': 'Event not found.'}), 404
     return jsonify({'success': True, 'event': event}), 200
 
