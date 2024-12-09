@@ -110,7 +110,7 @@ class AccSystemApiWithCookies
         }
 
         $sessionData = json_decode($_COOKIE[$this->cookieName], true);
-        print_r($sessionData);
+        //        print_r($sessionData);
 
         $email = $sessionData["email"];
         $sessionToken = $sessionData["sessionToken"];
@@ -248,10 +248,41 @@ class AccSystemApiWithCookies
 
         $data = [
             "email" => $email,
-            "session_token" => $sessionToken,
+            "sessionToken" => $sessionToken,
         ];
 
         return $this->sendRequest("POST", "/getUserData", $data);
+    }
+
+    public function getTransactionalList($email, $tlUUID, $sessionToken)
+    {
+        $data = [
+            "email" => $email,
+            "tlUUID" => $tlUUID,
+            "sessionToken" => $sessionToken,
+        ];
+
+        return $this->sendRequest("POST", "/getTransactionalListData", $data);
+    }
+
+    public function getEvent($email, $tlUUID, $eventUUID, $sessionToken)
+    {
+        $data = [
+            "email" => $email,
+            "tlUUID" => $tlUUID,
+            "eventUUID" => $eventUUID,
+            "sessionToken" => $sessionToken,
+        ];
+
+        return $this->sendRequest("POST", "/getEventData", $data);
+    }
+
+    public function getUserNameByUUID($uuid)
+    {
+        $data = [
+            "uuid" => $uuid,
+        ];
+        return $this->sendRequest("POST", "/getUserNameByUUID", $data);
     }
 }
 ?>

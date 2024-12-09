@@ -8,18 +8,24 @@ if (!$apiClient->isSignedIn()) {
     header("Location: login.php");
     exit();
 }
+$userData = $apiClient->getUserData()["user"];
+$userName = $userData["Name"];
+$userEmail = $userData["Email"];
 
 $tlUUID = $_GET["tlUUID"] ?? "";
-$transactionalList = [];
-
-// Fetch transactional list details using the API
+$transactionalList = $apiClient->getTransactionalList(
+    $userEmail,
+    $tlUUID,
+    $userData["SessionToken"]
+);
+print_r($transactionalList);
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>Transactional List</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
     <?php include "header.php"; ?>

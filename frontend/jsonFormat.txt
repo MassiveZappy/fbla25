@@ -4,8 +4,8 @@ User object
 "Email" : string,
 "EncryptedPassword" : string,
 "TransactionalList" : [TransactionalList object],
-"SesisonToken": string,
-"SesisonExpiary": string,
+"SessionToken": string,
+"SessionExpired": string,
 "UUID" : string,
 "Notifications": [Notification object]
 }

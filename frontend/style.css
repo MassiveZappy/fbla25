@@ -19,7 +19,7 @@ header nav ul {
 
 header nav ul li {
     display: inline;
-    margin: 0 10px;
+    margin: 0 80px;
 }
 
 header nav ul li a {
@@ -30,6 +30,14 @@ header nav ul li a {
 h2 {
     text-align: center;
     margin-top: 20px;
+}
+
+h3 {
+    padding: 10px;
+}
+
+p {
+    padding: 10px;
 }
 
 form {
@@ -103,4 +111,46 @@ footer {
     position: fixed;
     width: 100%;
     bottom: 0;
+}
+
+#PHStitle {
+    font-size:60px;
+    color:white;
+}
+.container {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+.bottom-left {
+    position: absolute;
+    bottom: 8px;
+    left: 16px;
+}
+
+.top-left {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    transform: translate(5%, -50%);
+}
+
+.top-right {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+}
+
+.bottom-right {
+    position: absolute;
+    bottom: 8px;
+    right: 16px;
+}
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }

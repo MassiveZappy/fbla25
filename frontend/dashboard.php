@@ -34,8 +34,9 @@ if ($sortField) {
 <!DOCTYPE html>
 <html>
 <head>
+    <!--Adds the title "Dashboard" to the tab and links stylistic changes from the css file-->
     <title>Dashboard</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
     <?php include "header.php"; ?>
@@ -65,7 +66,7 @@ if ($sortField) {
         </select>
         <button type="submit">Sort</button>
     </form>
-    <h3>Transactional Lists</h3>
+    <h3>Transactional Lists <a href="manageTransactionalLists.php">(Manage Transactional Lists)</a></h3>
     <?php foreach ($transactionalLists as $list): ?>
         <div class="transactional-list">
             <h4><?php echo $list["name"]; ?></h4>

@@ -350,12 +350,6 @@ class accSystem:
             return []
         return user.get('Notifications', [])
 
-    def getUserEmailByUUID(self, uuid):
-           for email, user in self.data.variable['users'].items():
-               if user['UUID'] == uuid:
-                   return email
-           return None
-
     def getUserNameByUUID(self, uuid):
            for email, user in self.data.variable['users'].items():
                 if user['UUID'] == uuid:

@@ -150,15 +150,58 @@ def getNotifications():
 def getUserData():
     data = request.json
     email = data.get('email')
-    sessionToken = data.get('session_token')
+    sessionToken = data.get('sessionToken')
     if not email or not sessionToken:
-        return jsonify({'success': False, 'message': 'Email and session_token are required.'}), 400
+        return jsonify({'success': False, 'message': 'Email and sessionToken are required.'}), 400
     if not accSys.validateSession(email, sessionToken):
         return jsonify({'success': False, 'message': 'Invalid session.'}), 401
     user = accSys.data.variable['users'].get(email)
     if not user:
         return jsonify({'success': False, 'message': 'User not found.'}), 404
     return jsonify({'success': True, 'user': user}), 200
+
+@app.route('/getTransactionalListData', methods=['POST'])
+def getTransactionalListData():
+    data = request.json
+    email = data.get('email')
+    tlUUID = data.get('tlUUID')
+    sessionToken = data.get('sessionToken')
+    if not email or not tlUUID or not sessionToken:
+        return jsonify({'success': False, 'message': 'Email, tlUUID, and sessionToken are required.'}), 400
+    if not accSys.validateSession(email, sessionToken):
+        return jsonify({'success': False, 'message': 'Invalid session.'}), 401
+    tl = accSys.data.variable['transactionalLists'].get(tlUUID)
+    if not tl:
+        return jsonify({'success': False, 'message': 'Transactional list not found.'}), 404
+    return jsonify({'success': True, 'transactionalList': tl}), 200
+
+@app.route('/getEventData', methods=['POST'])
+def getEventData():
+    data = request.json
+    email = data.get('email')
+    tlUUID = data.get('tlUUID')
+    eventUUID = data.get('eventUUID')
+    sessionToken = data.get('sessionToken')
+    if not email or not tlUUID or not eventUUID or not sessionToken:
+        return jsonify({'success': False, 'message': 'Email, tlUUID, eventUUID, and sessionToken are required.'}), 400
+    if not accSys.validateSession(email, sessionToken):
+        return jsonify({'success': False, 'message': 'Invalid session.'}), 401
+    event = accSys.data.variable['transactionalLists'][tlUUID]['events'].get(eventUUID)
+    if not event:
+        return jsonify({'success': False, 'message': 'Event not found.'}), 404
+    return jsonify({'success': True, 'event': event}), 200
+
+@app.route('/getUserNameByUUID', methods=['POST'])
+def getNameFromUUID():
+    data = request.json
+    uuid = data.get('uuid')
+    if not uuid:
+        return jsonify({'success': False, 'message': 'UUID is required.'}), 400
+    user = accSys.getUserNameByUUID(uuid)
+    if not user:
+        return jsonify({'success': False, 'message': 'User not found.'}), 404
+    return jsonify({'success': True, 'name': user}), 200
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5050)
