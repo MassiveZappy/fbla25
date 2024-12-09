@@ -146,5 +146,19 @@ def getNotifications():
     notifications = accSys.getNotifications(email)
     return jsonify({'success': True, 'notifications': notifications}), 200
 
+@app.route('/getUserData', methods=['POST'])
+def getUserData():
+    data = request.json
+    email = data.get('email')
+    sessionToken = data.get('session_token')
+    if not email or not sessionToken:
+        return jsonify({'success': False, 'message': 'Email and session_token are required.'}), 400
+    if not accSys.validateSession(email, sessionToken):
+        return jsonify({'success': False, 'message': 'Invalid session.'}), 401
+    user = accSys.data.variable['users'].get(email)
+    if not user:
+        return jsonify({'success': False, 'message': 'User not found.'}), 404
+    return jsonify({'success': True, 'user': user}), 200
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5050)

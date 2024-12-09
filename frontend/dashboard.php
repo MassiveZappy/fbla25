@@ -10,7 +10,8 @@ if (!$apiClient->isSignedIn()) {
 }
 
 $userEmail = json_decode($_COOKIE["acc_system_session"], true)["email"];
-$userName = $apiClient->getUserNameFromUUID($userEmail)["name"];
+// print_r($apiClient->getUserData());
+$userName = $apiClient->getUserData()["user"]["Name"];
 
 $sortField = $_GET["sortField"] ?? "";
 $sortOrder = $_GET["sortOrder"] ?? "";

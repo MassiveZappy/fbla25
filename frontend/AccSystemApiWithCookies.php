@@ -228,5 +228,30 @@ class AccSystemApiWithCookies
 
         return $this->sendRequest("GET", "/getNotifications", $params);
     }
+
+    public function getUserData()
+    {
+        if (!isset($_COOKIE[$this->cookieName])) {
+            throw new Exception("User is not signed in.");
+        }
+
+        $sessionData = json_decode($_COOKIE[$this->cookieName], true);
+        if (
+            !isset($sessionData["email"]) ||
+            !isset($sessionData["sessionToken"])
+        ) {
+            throw new Exception("Email and sessionToken are required.");
+        }
+
+        $email = $sessionData["email"];
+        $sessionToken = $sessionData["sessionToken"];
+
+        $data = [
+            "email" => $email,
+            "session_token" => $sessionToken,
+        ];
+
+        return $this->sendRequest("POST", "/getUserData", $data);
+    }
 }
 ?>
