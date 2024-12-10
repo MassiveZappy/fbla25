@@ -47,8 +47,8 @@ if ($sortField) {
         }
     });
 }
-// isSetAndNotEmpty
-// Filter events
+
+// Filter events (mayb)
 $filteredEvents = [];
 $totalAmount = 0;
 foreach ($events as $event) {
@@ -110,10 +110,6 @@ foreach ($events as $event) {
 
     if ($includeEvent) {
         $filteredEvents[] = $event;
-    }
-
-    foreach ($filteredEvents as $event) {
-        $totalAmount += $event["Amount"];
     }
 }
 ?>
@@ -180,6 +176,9 @@ foreach ($events as $event) {
     </form>
     <h3>Events <a href="createEvent.php">(Create Event)</a> Total:
         <?php
+        foreach ($filteredEvents as $event) {
+            $totalAmount += $event["Amount"];
+        }
         if ($totalAmount < 0) {
             echo "-$";
         } else {
